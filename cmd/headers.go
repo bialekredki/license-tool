@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	log "github.com/sirupsen/logrus"
 	"os"
 	"path/filepath"
 	"slices"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gobwas/glob"
 	"github.com/spf13/cobra"
@@ -20,10 +21,9 @@ var ignorePatterns []string
 
 type copyrightsTemplate struct {
 	holder string
-	year uint16
-	path string
+	year   uint16
+	path   string
 }
-
 
 func getFile(path string) *os.File {
 	file, err := os.Open(path)
@@ -43,9 +43,9 @@ func isPathToBeProcessed(
 	paths := [2]string{path, filepath.Base(path)}
 
 	var isToBeIncluded = true
-	
+
 	var isToBeIgnored = false
-	
+
 	if includePatterns != nil && len(*includePatterns) > 0 {
 		for _, path := range paths {
 			isToBeIncluded = common.IsMatchingAnyPattern(path, includePatterns)
@@ -95,7 +95,6 @@ func recursivelyCollectFiles(
 	return collectedFiles
 }
 
-
 var headersCmd = &cobra.Command{
 	Use:   "headers",
 	Short: "A brief description of your command",
@@ -106,7 +105,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		
+
 		common.SetupLogging(Verbosity)
 
 		if !common.IsExistingDirectory(Path) {
@@ -141,7 +140,6 @@ func init() {
 	headersCmd.Flags().Uint16P("year", "y", common.GetCurrentYear(), "Year for copyright template.")
 	headersCmd.Flags().StringP("holder", "H", "", "License holder for copyright template.")
 	headersCmd.Flags().StringP("template", "t", "license.txt", "License template.")
-
 
 	// Here you will define your flags and configuration settings.
 

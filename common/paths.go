@@ -2,8 +2,9 @@ package common
 
 import (
 	"errors"
-	log "github.com/sirupsen/logrus"
 	"os"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func IsExistingDirectory(directoryName string) bool {

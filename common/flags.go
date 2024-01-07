@@ -6,9 +6,8 @@ import (
 
 type GetterT func(name string) (interface{}, error)
 
-
 func handleDefault[T any](value T, err error, _default T) T {
-	if err != nil  {
+	if err != nil {
 		return _default
 	}
 	return value
@@ -16,15 +15,15 @@ func handleDefault[T any](value T, err error, _default T) T {
 
 func getDefaultValue[T any](_default ...T) T {
 	var defaultValue T
-	
+
 	if _default != nil {
 		return _default[0]
 	}
-	
+
 	return defaultValue
 }
 
-func GetStringFlag(cmd *cobra.Command, name string) (string, error){
+func GetStringFlag(cmd *cobra.Command, name string) (string, error) {
 	value, err := cmd.Flags().GetString(name)
 	return value, err
 }
