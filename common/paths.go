@@ -38,3 +38,12 @@ func ListContentOfDirectory(directoryName string) ([]string, []string) {
 	}
 	return files, directories
 }
+
+func GetFileContent(filename string) string {
+	file, err := os.ReadFile(filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return string(file)
+}

@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"bialekredki/license-tool/common"
+	license_headers "bialekredki/license-tool/license-headers"
 )
 
 // headersCmd represents the headers command
@@ -20,8 +21,8 @@ var dryRun = false
 var ignorePatterns []string
 
 type copyrightsTemplate struct {
-	holder string
-	year   uint16
+	Holder string
+	Year   uint16
 	path   string
 }
 
@@ -128,6 +129,13 @@ to quickly create a Cobra application.`,
 		if !common.IsExisitingFile(copyrights.path) {
 			log.Fatalf("License file %s not found", copyrights.path)
 		}
+		licenseTemplateContent := common.GetFileContent(copyrights.path)
+		template := license_headers.MakeTemplate(licenseTemplateContent, "license")
+		header := license_headers.ParseTemplateIntoString(template, copyrights)
+		log.Debugf("License header: %s", header)
+
+		templatedLanguages := license_headers.GetTemplatesForCollectedFiles(header, collectedFiles...)
+		log.Debug(templatedLanguages)
 	},
 }
 
